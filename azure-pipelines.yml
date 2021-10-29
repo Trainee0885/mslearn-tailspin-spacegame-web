@@ -27,27 +27,27 @@ steps:
   inputs:
     verbose: false
 
--script: './node_modules/.bin/node-sass $(wwwrootDit) --output $(wwwrootDit)'
+- script: './node_modules/.bin/node-sass $(wwwrootDit) --output $(wwwrootDit)'
   displayName: 'Compile Sass assets'
 
--task: gulp@1
+- task: gulp@1
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
 
--task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
 
--task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2
   displayName: 'Build the project -$(buildConfiguration)'
   inputs:
     command: 'build'
     arguments: '--no-restore --configuration $(buildConfiguration)'
     projects: '**/*.csproj'
 
--task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2
   displayName: 'Publish the project -$(buildConfiguration)'
   inputs:
     command: 'publish'
@@ -56,6 +56,6 @@ steps:
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
     zipAfterPublish: true
 
--task: PublishBuildArtifact@1
+- task: PublishBuildArtifact@1
   dsiplayName: 'Publish Artifact: drop'
   condition: succeeded()
